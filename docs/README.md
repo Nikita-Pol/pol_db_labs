@@ -7,9 +7,9 @@ footer: "ECL 2.0 Licensed | Copyright © [YYYY] [Your Name]"
 ---
 
 
-**Виконав(-ла):** 
+**Виконав:** 
 
-*студент(-ка) 2-го курсу, групи (шифр групи)*<span padding-right:5em></span> **[ім’я ПРІЗВИЩЕ] [Посилання email, tg, fb]**
+*студент 2-го курсу, групи ІО-з31*<span padding-right:5em></span> **Нікіта Поляков** [Telegram](https://t.me/N1k1ta2306)
 
 
 **Керівник**
