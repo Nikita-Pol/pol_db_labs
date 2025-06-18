@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
-<html lang="uk" class="light" dir="ltr">
+<html lang="uk" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Розроблення функціональних вимог до системи - Назва проєкту</title>
+        <title>Розроблення функціональних вимог до системи - Система аналізу медіа-контенту</title>
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,26 +24,40 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -57,24 +71,22 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -82,45 +94,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Титульна сторінка</a></li><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Вступ</a></li><li class="chapter-item expanded "><a href="requirements.html"><strong aria-hidden="true">2.</strong> Розроблення загальних вимог до системи</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="state-of-the-art.html"><strong aria-hidden="true">2.1.</strong> Аналіз предметної області</a></li><li class="chapter-item expanded "><a href="stakeholders-needs.html"><strong aria-hidden="true">2.2.</strong> Запити зацікавлених осіб</a></li></ol></li><li class="chapter-item expanded "><a href="use_cases.html" class="active"><strong aria-hidden="true">3.</strong> Розроблення функціональних вимог до системи</a></li><li class="chapter-item expanded "><a href="design.html"><strong aria-hidden="true">4.</strong> Проєктування інформаційного забезпечення</a></li><li class="chapter-item expanded "><a href="software.html"><strong aria-hidden="true">5.</strong> Реалізація інформаційного та програмного забезпечення</a></li><li class="chapter-item expanded "><a href="test.html"><strong aria-hidden="true">6.</strong> Тестування працездатності системи</a></li><li class="chapter-item expanded "><a href="conclusion.html"><strong aria-hidden="true">7.</strong> Висновки</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -130,18 +122,19 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Назва проєкту</h1>
+                    <h1 class="menu-title">Система аналізу медіа-контенту</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -175,87 +168,284 @@
                     <main>
                         <h1 id="Розроблення-функціональних-вимог-до-системи"><a class="header" href="#Розроблення-функціональних-вимог-до-системи">Розроблення функціональних вимог до системи</a></h1>
 <h2 id="Модель-прецедентів"><a class="header" href="#Модель-прецедентів">Модель прецедентів</a></h2>
-<p>В цьому файлі необхідно перелічити всі документи, розроблені в проекті та дати посилання на них.</p>
-<p><em>Модель прецедентів повинна містити загальні оглядові діаграми та специфікації прецедентів.</em></p>
-<p>Вбудовування зображень діаграм здійснюється з використанням сервісу <a href="https://plantuml.com/">plantuml.com</a>.</p>
-<p>В markdown-файлі використовується опис діаграми</p>
-<pre><code class="language-md">
-&lt;center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;"
-&gt;
+<p>У цьому розділі представлена модель прецедентів (use case model), яка візуалізує та деталізує функціональні можливості Системи аналізу медіа-контенту з точки зору взаємодії з користувачами та адміністраторами.</p>
+<h3 id="Діаграма-кейсів"><a class="header" href="#Діаграма-кейсів">Діаграма кейсів</a></h3>
+<pre><code>@startuml
+top to bottom direction
+actor "Користувач" as User
+actor "Адміністратор" as Admin
 
-@startuml
+Admin -u-|&gt; User
 
-    right header
-        &lt;font size=24 color=black&gt;Package: &lt;b&gt;UCD_3.0
-    end header
+usecase "user_register\nРеєстрація" as Registration
+usecase "user_login\nАвторизація" as Login
+usecase "media_search\nПошук даних за фільтрами" as SearchAndFilter
 
-    title
-        &lt;font size=18 color=black&gt;UC_8. Редагувати конфігурацію порталу
-        &lt;font size=16 color=black&gt;Діаграма прецедентів
-    end title
+User -l-&gt; Registration
+User -r-&gt; Login
+User -u-&gt; SearchAndFilter
 
+usecase "acc_manip\nКерування обліковими\n записами користувачів" as ManipAccount
+usecase "source_manip\nКерування джерелами інформації" as ManipSource
 
-    actor "Користувач" as User #eeeeaa
-    
-    package UCD_1{
-        usecase "&lt;b&gt;UC_1&lt;/b&gt;\nПереглянути список \nзвітів" as UC_1 #aaeeaa
-    }
-    
-    usecase "&lt;b&gt;UC_1.1&lt;/b&gt;\nЗастосувати фільтр" as UC_1.1
-    usecase "&lt;b&gt;UC_1.2&lt;/b&gt;\nПереглянути метадані \nзвіту" as UC_1.2  
-    usecase "&lt;b&gt;UC_1.2.1&lt;/b&gt;\nДати оцінку звіту" as UC_1.2.1  
-    usecase "&lt;b&gt;UC_1.2.2&lt;/b&gt;\nПереглянути інформацію \nпро авторів звіту" as UC_1.2.2
-    
-    package UCD_1 {
-        usecase "&lt;b&gt;UC_4&lt;/b&gt;\nВикликати звіт" as UC_4 #aaeeaa
-    }
-    
-    usecase "&lt;b&gt;UC_1.1.1&lt;/b&gt;\n Використати \nпошукові теги" as UC_1.1.1  
-    usecase "&lt;b&gt;UC_1.1.2&lt;/b&gt;\n Використати \nрядок пошуку" as UC_1.1.2
-    usecase "&lt;b&gt;UC_1.1.3&lt;/b&gt;\n Використати \nавторів" as UC_1.1.3  
-    
-    
-    
-    User -&gt; UC_1
-    UC_1.1 .u.&gt; UC_1 :extends
-    UC_1.2 .u.&gt; UC_1 :extends
-    UC_4 .d.&gt; UC_1.2 :extends
-    UC_1.2 .&gt; UC_1.2 :extends
-    UC_1.2.1 .u.&gt; UC_1.2 :extends
-    UC_1.2.2 .u.&gt; UC_1.2 :extends
-    UC_1 ..&gt; UC_1.2.2 :extends
-    
-    
-    UC_1.1.1 -u-|&gt; UC_1.1
-    UC_1.1.2 -u-|&gt; UC_1.1
-    UC_1.1.3 -u-|&gt; UC_1.1
-    
-    right footer
-        Аналітичний портал. Модель прецедентів.
-        НТУУ КПІ ім.І.Сікорського
-        Киів-2020
-    end footer
-
+Admin --&gt; ManipAccount
+Admin --&gt; ManipSource
 @enduml
-
-**Діаграма прецедентів**
-
-&lt;/center&gt;
 </code></pre>
-<p>яка буде відображена наступним чином</p>
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;"
-    >
-<p><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgaGVpZ2h0PSI1NTlweCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSIgc3R5bGU9IndpZHRoOjExNjRweDtoZWlnaHQ6NTU5cHg7YmFja2dyb3VuZDojRkZGRkZGOyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMTE2NCA1NTkiIHdpZHRoPSIxMTY0cHgiIHpvb21BbmRQYW49Im1hZ25pZnkiPjx0aXRsZT4mbHQ7Zm9udCBzaXplPTE4IGNvbG9yPWJsYWNrJmd0O1VDXzguICYjMTA1NjsmIzEwNzc7JiMxMDc2OyYjMTA3MjsmIzEwNzU7JiMxMDkxOyYjMTA3NDsmIzEwNzI7JiMxMDkwOyYjMTA4MDsgJiMxMDgyOyYjMTA4NjsmIzEwODU7JiMxMDkyOyYjMTExMDsmIzEwNzU7JiMxMDkxOyYjMTA4ODsmIzEwNzI7JiMxMDk0OyYjMTExMDsmIzExMDI7ICYjMTA4NzsmIzEwODY7JiMxMDg4OyYjMTA5MDsmIzEwNzI7JiMxMDgzOyYjMTA5MTs8L3RpdGxlPjxkZWZzLz48Zz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMDkuMDY2NCIgeD0iOTIyLjExMjkiIHk9IjIyLjI3NzMiPlBhY2thZ2U6PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMTEuNTM5MSIgeD0iMTAzOC44MDgyIiB5PSIyMi4yNzczIj5VQ0RfMy4wPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0MjQuMjA0MSIgeD0iMzYzLjA3MTYiIHk9IjU1LjY0NTUiPlVDXzguICYjMTA1NjsmIzEwNzc7JiMxMDc2OyYjMTA3MjsmIzEwNzU7JiMxMDkxOyYjMTA3NDsmIzEwNzI7JiMxMDkwOyYjMTA4MDsgJiMxMDgyOyYjMTA4NjsmIzEwODU7JiMxMDkyOyYjMTExMDsmIzEwNzU7JiMxMDkxOyYjMTA4ODsmIzEwNzI7JiMxMDk0OyYjMTExMDsmIzExMDI7ICYjMTA4NzsmIzEwODY7JiMxMDg4OyYjMTA5MDsmIzEwNzI7JiMxMDgzOyYjMTA5MTs8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjIwNi4zNjcyIiB4PSI0NzEuOTkiIHk9Ijc0Ljc0MjIiPiYjMTA0NDsmIzExMTA7JiMxMDcyOyYjMTA3NTsmIzEwODg7JiMxMDcyOyYjMTA4NDsmIzEwNzI7ICYjMTA4NzsmIzEwODg7JiMxMDc3OyYjMTA5NDsmIzEwNzc7JiMxMDc2OyYjMTA3NzsmIzEwODU7JiMxMDkwOyYjMTExMDsmIzEwNzQ7PC90ZXh0PjwhLS1jbHVzdGVyIFVDRF8xLS0+PGcgaWQ9ImNsdXN0ZXJfVUNEXzEiPjxwYXRoIGQ9Ik0xNjIuNjEsOTUuNTE1NiBMMjEzLjYxNDksOTUuNTE1NiBBMy43NSwzLjc1IDAgMCAxIDIxNi4xMTQ5LDk4LjAxNTYgTDIyMy4xMTQ5LDExNy44MTI1IEw2NDguNjEsMTE3LjgxMjUgQTIuNSwyLjUgMCAwIDEgNjUxLjExLDEyMC4zMTI1IEw2NTEuMTEsMjE5LjE2NTYgQTIuNSwyLjUgMCAwIDEgNjQ4LjYxLDIyMS42NjU2IEwxNjIuNjEsMjIxLjY2NTYgQTIuNSwyLjUgMCAwIDEgMTYwLjExLDIxOS4xNjU2IEwxNjAuMTEsOTguMDE1NiBBMi41LDIuNSAwIDAgMSAxNjIuNjEsOTUuNTE1NiAiIGZpbGw9Im5vbmUiIHN0eWxlPSJzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MS41OyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MS41OyIgeDE9IjE2MC4xMSIgeDI9IjIyMy4xMTQ5IiB5MT0iMTE3LjgxMjUiIHkyPSIxMTcuODEyNSIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI1MC4wMDQ5IiB4PSIxNjQuMTEiIHk9IjExMC41MTA3Ij5VQ0RfMTwvdGV4dD48L2c+PGcgaWQ9ImVsZW1fVUNfMSI+PGVsbGlwc2UgY3g9IjUxMy4xMTAyIiBjeT0iMTY4LjA5NjUiIGZpbGw9IiNBQUVFQUEiIHJ4PSIxMjEuNTMwMiIgcnk9IjM3LjU3MDkiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIzOC4zODM4IiB4PSI0OTMuOTE4MyIgeT0iMTU0LjY0NjMiPlVDXzE8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTUxLjE3NjgiIHg9IjQzNS4yOTY3IiB5PSIxNzAuOTQzMiI+JiMxMDU1OyYjMTA3NzsmIzEwODg7JiMxMDc3OyYjMTA3NTsmIzEwODM7JiMxMTAzOyYjMTA4NTsmIzEwOTE7JiMxMDkwOyYjMTA4MDsgJiMxMDg5OyYjMTA4NzsmIzEwODA7JiMxMDg5OyYjMTA4NjsmIzEwODI7PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjM5Ljg4MDkiIHg9IjQ5My4xNjk3IiB5PSIxODcuMjQwMSI+JiMxMDc5OyYjMTA3NDsmIzExMTA7JiMxMDkwOyYjMTExMDsmIzEwNzQ7PC90ZXh0PjwvZz48ZyBpZD0iZWxlbV9VQ180Ij48ZWxsaXBzZSBjeD0iMjY2LjEwODkiIGN5PSIxNjguMDkyOSIgZmlsbD0iI0FBRUVBQSIgcng9IjkwLjQ1ODkiIHJ5PSIyNi4wNDczIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzguMzgzOCIgeD0iMjQ2LjkxNyIgeT0iMTYyLjc5MTEiPlVDXzQ8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTExLjY4NTUiIHg9IjIxMC4yNjYxIiB5PSIxNzkuMDg4Ij4mIzEwNDI7JiMxMDgwOyYjMTA4MjsmIzEwODM7JiMxMDgwOyYjMTA4MjsmIzEwNzI7JiMxMDkwOyYjMTA4MDsgJiMxMDc5OyYjMTA3NDsmIzExMTA7JiMxMDkwOzwvdGV4dD48L2c+PCEtLWVudGl0eSBVc2VyLS0+PGcgaWQ9ImVsZW1fVXNlciI+PGVsbGlwc2UgY3g9IjcxMi4xMDQ3IiBjeT0iMTM4LjQ0NTYiIGZpbGw9IiNFRUVFQUEiIHJ4PSI4IiByeT0iOCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHBhdGggZD0iTTcxMi4xMDQ3LDE0Ni40NDU2IEw3MTIuMTA0NywxNzMuNDQ1NiBNNjk5LjEwNDcsMTU0LjQ0NTYgTDcyNS4xMDQ3LDE1NC40NDU2IE03MTIuMTA0NywxNzMuNDQ1NiBMNjk5LjEwNDcsMTg4LjQ0NTYgTTcxMi4xMDQ3LDE3My40NDU2IEw3MjUuMTA0NywxODguNDQ1NiAiIGZpbGw9Im5vbmUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9Ijg1LjcyOTUiIHg9IjY2OS4yNCIgeT0iMjAyLjk0MDciPiYjMTA1MDsmIzEwODY7JiMxMDg4OyYjMTA4MDsmIzEwODk7JiMxMDkwOyYjMTA5MTsmIzEwNzQ7JiMxMDcyOyYjMTA5NTs8L3RleHQ+PC9nPjxnIGlkPSJlbGVtX1VDXzEuMSI+PGVsbGlwc2UgY3g9IjgwMi4xMSIgY3k9IjMyMi4yMzI5IiBmaWxsPSIjRjFGMUYxIiByeD0iMTE1LjE0IiByeT0iMjYuMDQ3MyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjUzLjQ0MzQiIHg9Ijc3NS4zODgzIiB5PSIzMTYuOTMxMSI+VUNfMS4xPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0Ni41ODk4IiB4PSI3MjguODE1IiB5PSIzMzMuMjI4Ij4mIzEwNDc7JiMxMDcyOyYjMTA4OTsmIzEwOTA7JiMxMDg2OyYjMTA4OTsmIzEwOTE7JiMxMDc0OyYjMTA3MjsmIzEwOTA7JiMxMDgwOyAmIzEwOTI7JiMxMTEwOyYjMTA4MzsmIzExMDA7JiMxMDkwOyYjMTA4ODs8L3RleHQ+PC9nPjxnIGlkPSJlbGVtX1VDXzEuMiI+PGVsbGlwc2UgY3g9IjI0Ny4xMDc4IiBjeT0iMzIyLjIzNjUiIGZpbGw9IiNGMUYxRjEiIHJ4PSIxMzMuMjI3OCIgcnk9IjM3LjU3MDkiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI1My40NDM0IiB4PSIyMjAuMzg2MSIgeT0iMzA4Ljc4NjMiPlVDXzEuMjwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNjcuNzE5NyIgeD0iMTYxLjAyMjgiIHk9IjMyNS4wODMyIj4mIzEwNTU7JiMxMDc3OyYjMTA4ODsmIzEwNzc7JiMxMDc1OyYjMTA4MzsmIzExMDM7JiMxMDg1OyYjMTA5MTsmIzEwOTA7JiMxMDgwOyAmIzEwODQ7JiMxMDc3OyYjMTA5MDsmIzEwNzI7JiMxMDc2OyYjMTA3MjsmIzEwODU7JiMxMTEwOzwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIzNi4wMjU0IiB4PSIyMjkuMDk1MSIgeT0iMzQxLjM4MDEiPiYjMTA3OTsmIzEwNzQ7JiMxMTEwOyYjMTA5MDsmIzEwOTE7PC90ZXh0PjwvZz48ZyBpZD0iZWxlbV9VQ18xLjIuMSI+PGVsbGlwc2UgY3g9IjEwOS4xMDg4IiBjeT0iNDc0LjM3MjkiIGZpbGw9IiNGMUYxRjEiIHJ4PSIxMDMuMTA4OCIgcnk9IjI2LjA0NzMiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI2OC41MDI5IiB4PSI3NC44NTczIiB5PSI0NjkuMDcxMSI+VUNfMS4yLjE8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTI5LjU3NTIiIHg9IjQ0LjMyMTIiIHk9IjQ4NS4zNjgiPiYjMTA0NDsmIzEwNzI7JiMxMDkwOyYjMTA4MDsgJiMxMDg2OyYjMTA5NDsmIzExMTA7JiMxMDg1OyYjMTA4MjsmIzEwOTE7ICYjMTA3OTsmIzEwNzQ7JiMxMTEwOyYjMTA5MDsmIzEwOTE7PC90ZXh0PjwvZz48ZyBpZD0iZWxlbV9VQ18xLjIuMiI+PGVsbGlwc2UgY3g9IjM5NC4xMDYxIiBjeT0iNDc0LjM3NjUiIGZpbGw9IiNGMUYxRjEiIHJ4PSIxNDcuMDg2MSIgcnk9IjM3LjU3MDkiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI2OC41MDI5IiB4PSIzNTkuODU0NyIgeT0iNDYwLjkyNjMiPlVDXzEuMi4yPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE4Ny4zMTg0IiB4PSIyOTguMjIxOCIgeT0iNDc3LjIyMzIiPiYjMTA1NTsmIzEwNzc7JiMxMDg4OyYjMTA3NzsmIzEwNzU7JiMxMDgzOyYjMTEwMzsmIzEwODU7JiMxMDkxOyYjMTA5MDsmIzEwODA7ICYjMTExMDsmIzEwODU7JiMxMDkyOyYjMTA4NjsmIzEwODg7JiMxMDg0OyYjMTA3MjsmIzEwOTQ7JiMxMTEwOyYjMTEwMjs8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTI2LjEwOTQiIHg9IjMzMS4wNTE0IiB5PSI0OTMuNTIwMSI+JiMxMDg3OyYjMTA4ODsmIzEwODY7ICYjMTA3MjsmIzEwNzQ7JiMxMDkwOyYjMTA4NjsmIzEwODg7JiMxMTEwOyYjMTA3NDsgJiMxMDc5OyYjMTA3NDsmIzExMTA7JiMxMDkwOyYjMTA5MTs8L3RleHQ+PC9nPjxnIGlkPSJlbGVtX1VDXzEuMS4xIj48ZWxsaXBzZSBjeD0iNjYyLjExMDciIGN5PSI0NzQuMzc2NSIgZmlsbD0iI0YxRjFGMSIgcng9Ijg2LjE5MDciIHJ5PSIzNy41NzA5IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNjguNTAyOSIgeD0iNjI3Ljg1OTIiIHk9IjQ2MC45MjYzIj5VQ18xLjEuMTwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI5NS4zOTU1IiB4PSI2MTQuNDEyOSIgeT0iNDc3LjIyMzIiPiYjMTA0MjsmIzEwODA7JiMxMDgyOyYjMTA4NjsmIzEwODg7JiMxMDgwOyYjMTA4OTsmIzEwOTA7JiMxMDcyOyYjMTA5MDsmIzEwODA7PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEwNS42NDk0IiB4PSI2MDkuMjg2IiB5PSI0OTMuNTIwMSI+JiMxMDg3OyYjMTA4NjsmIzEwOTY7JiMxMDkxOyYjMTA4MjsmIzEwODY7JiMxMDc0OyYjMTExMDsgJiMxMDkwOyYjMTA3NzsmIzEwNzU7JiMxMDgwOzwvdGV4dD48L2c+PGcgaWQ9ImVsZW1fVUNfMS4xLjIiPjxlbGxpcHNlIGN4PSI4NjguMTEzNiIgY3k9IjQ3NC4zNzY1IiBmaWxsPSIjRjFGMUYxIiByeD0iODUuMjMzNiIgcnk9IjM3LjU3MDkiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI2OC41MDI5IiB4PSI4MzMuODYyMiIgeT0iNDYwLjkyNjMiPlVDXzEuMS4yPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9Ijk1LjM5NTUiIHg9IjgyMC40MTU5IiB5PSI0NzcuMjIzMiI+JiMxMDQyOyYjMTA4MDsmIzEwODI7JiMxMDg2OyYjMTA4ODsmIzEwODA7JiMxMDg5OyYjMTA5MDsmIzEwNzI7JiMxMDkwOyYjMTA4MDs8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTA0LjAxNTYiIHg9IjgxNi4xMDU4IiB5PSI0OTMuNTIwMSI+JiMxMDg4OyYjMTEwMzsmIzEwNzY7JiMxMDg2OyYjMTA4MjsgJiMxMDg3OyYjMTA4NjsmIzEwOTY7JiMxMDkxOyYjMTA4MjsmIzEwOTE7PC90ZXh0PjwvZz48ZyBpZD0iZWxlbV9VQ18xLjEuMyI+PGVsbGlwc2UgY3g9IjEwNzMuMTEzNiIgY3k9IjQ3NC4zNzY1IiBmaWxsPSIjRjFGMUYxIiByeD0iODUuMjMzNiIgcnk9IjM3LjU3MDkiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI2OC41MDI5IiB4PSIxMDM4Ljg2MjIiIHk9IjQ2MC45MjYzIj5VQ18xLjEuMzwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI5NS4zOTU1IiB4PSIxMDI1LjQxNTkiIHk9IjQ3Ny4yMjMyIj4mIzEwNDI7JiMxMDgwOyYjMTA4MjsmIzEwODY7JiMxMDg4OyYjMTA4MDsmIzEwODk7JiMxMDkwOyYjMTA3MjsmIzEwOTA7JiMxMDgwOzwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI1NC41NzgxIiB4PSIxMDQ1LjgyNDYiIHk9IjQ5My41MjAxIj4mIzEwNzI7JiMxMDc0OyYjMTA5MDsmIzEwODY7JiMxMDg4OyYjMTExMDsmIzEwNzQ7PC90ZXh0PjwvZz48IS0tbGluayBVc2VyIHRvIFVDXzEtLT48ZyBpZD0ibGlua19Vc2VyX1VDXzEiPjxwYXRoIGQ9Ik02NjguOSwxNjguMDk1NiBDNjU3LjUyLDE2OC4wOTU2IDY1Mi4xNCwxNjguMDk1NiA2NDAuNzYsMTY4LjA5NTYgIiBmaWxsPSJub25lIiBpZD0iVXNlci10by1VQ18xIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjYzNC43NiwxNjguMDk1Niw2NDMuNzYsMTcyLjA5NTYsNjM5Ljc2LDE2OC4wOTU2LDY0My43NiwxNjQuMDk1Niw2MzQuNzYsMTY4LjA5NTYiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjwvZz48IS0tcmV2ZXJzZSBsaW5rIFVDXzEgdG8gVUNfMS4xLS0+PGcgaWQ9ImxpbmtfVUNfMV9VQ18xLjEiPjxwYXRoIGQ9Ik01NzguOTk5MiwyMDMuNzgwOCBDNjMzLjk0OTIsMjMyLjcxMDggNzA4LjM3LDI3MS44ODU2IDc1Ny42NCwyOTcuODI1NiAiIGZpbGw9Im5vbmUiIGlkPSJVQ18xLWJhY2t0by1VQ18xLjEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wO3N0cm9rZS1kYXNoYXJyYXk6Ny4wLDcuMDsiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjU3My42OSwyMDAuOTg1Niw1NzkuNzkwMywyMDguNzE3OCw1NzguMTE0MywyMDMuMzE0OSw1ODMuNTE3MiwyMDEuNjM4OSw1NzMuNjksMjAwLjk4NTYiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjUyLjA1MDgiIHg9IjY3NS4xMSIgeT0iMjUwLjczMjUiPmV4dGVuZHM8L3RleHQ+PC9nPjwhLS1yZXZlcnNlIGxpbmsgVUNfMSB0byBVQ18xLjItLT48ZyBpZD0ibGlua19VQ18xX1VDXzEuMiI+PHBhdGggZD0iTTQ1MC44NDE4LDIwNC43MDQ3IEM0MDYuMjYxOCwyMzAuMjA0NyAzNDkuNzgsMjYyLjUwNTYgMzA1LDI4OC4xMjU2ICIgZmlsbD0ibm9uZSIgaWQ9IlVDXzEtYmFja3RvLVVDXzEuMiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7c3Ryb2tlLWRhc2hhcnJheTo3LjAsNy4wOyIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iNDU2LjA1LDIwMS43MjU2LDQ0Ni4yNTE3LDIwMi43MjIyLDQ1MS43MDk5LDIwNC4yMDgyLDQ1MC4yMjM4LDIwOS42NjY0LDQ1Ni4wNSwyMDEuNzI1NiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNTIuMDUwOCIgeD0iMzg4LjExIiB5PSIyNTAuNzMyNSI+ZXh0ZW5kczwvdGV4dD48L2c+PCEtLWxpbmsgVUNfNCB0byBVQ18xLjItLT48ZyBpZD0ibGlua19VQ180X1VDXzEuMiI+PHBhdGggZD0iTTI2Mi45MywxOTQuNTU1NiBDMjU5Ljg3LDIxOS4wODU2IDI1NS45NDUsMjUwLjUxMjEgMjUyLjQ2NSwyNzguMzIyMSAiIGZpbGw9Im5vbmUiIGlkPSJVQ180LXRvLVVDXzEuMiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7c3Ryb2tlLWRhc2hhcnJheTo3LjAsNy4wOyIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjUxLjcyLDI4NC4yNzU2LDI1Ni44MDY1LDI3NS44NDE5LDI1Mi4zNDA4LDI3OS4zMTQzLDI0OC44Njg1LDI3NC44NDg2LDI1MS43MiwyODQuMjc1NiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNTIuMDUwOCIgeD0iMjU5LjExIiB5PSIyNTAuNzMyNSI+ZXh0ZW5kczwvdGV4dD48L2c+PCEtLWxpbmsgVUNfMS4yIHRvIFVDXzEuMi0tPjxnIGlkPSJsaW5rX1VDXzEuMl9VQ18xLjIiPjxwYXRoIGQ9Ik0zNzEuODMsMzA4LjUxNTYgQzM5Ny4xOCwzMTAuMDA1NiA0MTUuMzQsMzE0LjU4NTYgNDE1LjM0LDMyMi4yMzU2IEM0MTUuMzQsMzI5Ljg4NTYgNDAzLjE2OTUsMzM0LjEwMTIgMzc3LjgxOTUsMzM1LjYwMTIgIiBmaWxsPSJub25lIiBpZD0iVUNfMS4yLXRvLVVDXzEuMiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7c3Ryb2tlLWRhc2hhcnJheTo3LjAsNy4wOyIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMzcxLjgzLDMzNS45NTU2LDM4MS4wNTA2LDMzOS40MTcsMzc2LjgyMTMsMzM1LjY2MDMsMzgwLjU3OCwzMzEuNDMxLDM3MS44MywzMzUuOTU1NiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNTIuMDUwOCIgeD0iNDIxLjM0IiB5PSIzMjYuODAyNSI+ZXh0ZW5kczwvdGV4dD48L2c+PCEtLXJldmVyc2UgbGluayBVQ18xLjIgdG8gVUNfMS4yLjEtLT48ZyBpZD0ibGlua19VQ18xLjJfVUNfMS4yLjEiPjxwYXRoIGQ9Ik0yMTAuMzQwMiwzNjMuMjMzNiBDMTg0Ljg0MDIsMzkwLjk4MzYgMTU0LjE0LDQyNC4zNzU2IDEzMS42Nyw0NDguODM1NiAiIGZpbGw9Im5vbmUiIGlkPSJVQ18xLjItYmFja3RvLVVDXzEuMi4xIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDtzdHJva2UtZGFzaGFycmF5OjcuMCw3LjA7Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMTQuNCwzNTguODE1NiwyMDUuMzY1MSwzNjIuNzM2MSwyMTEuMDE2OSwzNjIuNDk3MywyMTEuMjU1NywzNjguMTQ5MSwyMTQuNCwzNTguODE1NiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNTIuMDUwOCIgeD0iMTg0LjExIiB5PSI0MDIuODcyNSI+ZXh0ZW5kczwvdGV4dD48L2c+PCEtLXJldmVyc2UgbGluayBVQ18xLjIgdG8gVUNfMS4yLjItLT48ZyBpZD0ibGlua19VQ18xLjJfVUNfMS4yLjIiPjxwYXRoIGQ9Ik0yODYuMTQ3MywzNjMuMTAzMSBDMzA5LjQwNzMsMzg2Ljg2MzEgMzM1LjcsNDEzLjcxNTYgMzU5LjAxLDQzNy41MjU2ICIgZmlsbD0ibm9uZSIgaWQ9IlVDXzEuMi1iYWNrdG8tVUNfMS4yLjIiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wO3N0cm9rZS1kYXNoYXJyYXk6Ny4wLDcuMDsiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjI4MS45NSwzNTguODE1NiwyODUuMzg3NiwzNjguMDQ1MSwyODUuNDQ3NywzNjIuMzg4NiwyOTEuMTA0MywzNjIuNDQ4NywyODEuOTUsMzU4LjgxNTYiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjUyLjA1MDgiIHg9IjMyNS4xMSIgeT0iNDAyLjg3MjUiPmV4dGVuZHM8L3RleHQ+PC9nPjwhLS1saW5rIFVDXzEgdG8gVUNfMS4yLjItLT48ZyBpZD0ibGlua19VQ18xX1VDXzEuMi4yIj48cGF0aCBkPSJNNTExLjg3LDIwNi4wNTU2IEM1MDkuMzksMjQ1LjU5NTYgNTAxLjk5LDMwOS40MTU2IDQ4MC4xMSwzNTkuODA1NiBDNDY3LjY5LDM4OC4zODU2IDQ1MC41OTE0LDQxMS44MDQ0IDQzMi40MzE0LDQzMi44MzQ0ICIgZmlsbD0ibm9uZSIgaWQ9IlVDXzEtdG8tVUNfMS4yLjIiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wO3N0cm9rZS1kYXNoYXJyYXk6Ny4wLDcuMDsiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjQyOC41MSw0MzcuMzc1Niw0MzcuNDE5Niw0MzMuMTc4MSw0MzEuNzc3OSw0MzMuNTkxMyw0MzEuMzY0Nyw0MjcuOTQ5Niw0MjguNTEsNDM3LjM3NTYiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjUyLjA1MDgiIHg9IjUwMi4xMSIgeT0iMzI2LjgwMjUiPmV4dGVuZHM8L3RleHQ+PC9nPjwhLS1yZXZlcnNlIGxpbmsgVUNfMS4xIHRvIFVDXzEuMS4xLS0+PGcgaWQ9ImxpbmtfVUNfMS4xX1VDXzEuMS4xIj48cGF0aCBkPSJNNzY2LjcxMzksMzYxLjE4OTkgQzc0My40OTM5LDM4Ni4wODk5IDcxOS44MSw0MTEuNDk1NiA2OTMuOTEsNDM5LjI3NTYgIiBmaWxsPSJub25lIiBpZD0iVUNfMS4xLWJhY2t0by1VQ18xLjEuMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PHBvbHlnb24gZmlsbD0ibm9uZSIgcG9pbnRzPSI3NzguOTksMzQ4LjAyNTYsNzYyLjMyNTgsMzU3LjA5NzksNzcxLjEwMiwzNjUuMjgxOSw3NzguOTksMzQ4LjAyNTYiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjwvZz48IS0tcmV2ZXJzZSBsaW5rIFVDXzEuMSB0byBVQ18xLjEuMi0tPjxnIGlkPSJsaW5rX1VDXzEuMV9VQ18xLjEuMiI+PHBhdGggZD0iTTgyMC4zOTkzLDM2NC44NDU3IEM4MzEuMDY5MywzODkuMTM1NyA4NDAuMTMsNDA5LjcxNTYgODUyLjIsNDM3LjE4NTYgIiBmaWxsPSJub25lIiBpZD0iVUNfMS4xLWJhY2t0by1VQ18xLjEuMiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PHBvbHlnb24gZmlsbD0ibm9uZSIgcG9pbnRzPSI4MTMuMTYsMzQ4LjM2NTYsODE0LjkwNTksMzY3LjI1ODgsODI1Ljg5MjYsMzYyLjQzMjYsODEzLjE2LDM0OC4zNjU2IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48L2c+PCEtLXJldmVyc2UgbGluayBVQ18xLjEgdG8gVUNfMS4xLjMtLT48ZyBpZD0ibGlua19VQ18xLjFfVUNfMS4xLjMiPjxwYXRoIGQ9Ik04NjAuNDk0NiwzNTUuNTc5NSBDOTA4LjE5NDYsMzgyLjAwOTUgOTY5LjczLDQxNi4wOTU2IDEwMjAuOTgsNDQ0LjQ5NTYgIiBmaWxsPSJub25lIiBpZD0iVUNfMS4xLWJhY2t0by1VQ18xLjEuMyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PHBvbHlnb24gZmlsbD0ibm9uZSIgcG9pbnRzPSI4NDQuNzUsMzQ2Ljg1NTYsODU3LjU4NjcsMzYwLjgyNzcsODYzLjQwMjYsMzUwLjMzMTMsODQ0Ljc1LDM0Ni44NTU2IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48L2c+PHRleHQgZmlsbD0iIzg4ODg4OCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjI1Ljg4MzgiIHg9IjkyNC40NjM0IiB5PSI1MjYuMjI5NiI+JiMxMDQwOyYjMTA4NTsmIzEwNzI7JiMxMDgzOyYjMTExMDsmIzEwOTA7JiMxMDgwOyYjMTA5NTsmIzEwODU7JiMxMDgwOyYjMTA4MTsgJiMxMDg3OyYjMTA4NjsmIzEwODg7JiMxMDkwOyYjMTA3MjsmIzEwODM7LiAmIzEwNTI7JiMxMDg2OyYjMTA3NjsmIzEwNzc7JiMxMDgzOyYjMTEwMDsgJiMxMDg3OyYjMTA4ODsmIzEwNzc7JiMxMDk0OyYjMTA3NzsmIzEwNzY7JiMxMDc3OyYjMTA4NTsmIzEwOTA7JiMxMTEwOyYjMTA3NDsuPC90ZXh0Pjx0ZXh0IGZpbGw9IiM4ODg4ODgiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEzMi41NTg2IiB4PSI5NzEuMTI2IiB5PSI1MzcuODcwMyI+JiMxMDUzOyYjMTA1ODsmIzEwNTk7JiMxMDU5OyAmIzEwNTA7JiMxMDU1OyYjMTAzMDsgJiMxMTEwOyYjMTA4NDsuJiMxMDMwOy4mIzEwNTc7JiMxMTEwOyYjMTA4MjsmIzEwODY7JiMxMDg4OyYjMTA4OTsmIzExMDA7JiMxMDgyOyYjMTA4NjsmIzEwNzU7JiMxMDg2OzwvdGV4dD48dGV4dCBmaWxsPSIjODg4ODg4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI1MS4zMjgxIiB4PSIxMDExLjc0MTMiIHk9IjU0OS41MTA5Ij4mIzEwNTA7JiMxMDgwOyYjMTExMDsmIzEwNzQ7LTIwMjA8L3RleHQ+PCEtLVNSQz1bWkxOQlJqZjA1RHR0QXd4ODZaU3NnOGVZbVlSelc2eE9MSzg2ZDBHTHVTZXNLak03MTI0WU5LSERMS0xLWWJBYlJOdTBHTDRmaF94MmRKX2djVjRKUWpEd0NSQmR0WmRkdENUU0V5dEpDdV9FQkJEWEVPeWVVNGVkVGppWmpfZFFFWkFBTEJUUmpkREtRdmRyNS1MZE1Dbkp3djFBak5CYi02Y3JlRXNoS3JReDRPQWVSd19malFtcUZGclcwd3pvTjN0R1lCX29iN19tWTJVWXBzQ1VZTkVVNFN6dnBJam44T1BvTXRJbkZIMTN5Tzd1RHd6NTVwdVpOZVgtQWljSjNIQS0wT080MW1PbFVHRzRsNHg1R0I1RUdOOEVYdDRLWTJfVTN5SWlVeFAzRVJ3TGQzbUpGVlp3Nll6cFBCZktTSXM3ellteWZnYUVnRU1iZG9RSUFUQlZIMTh4aGJLdE5Pam9BZGpMbFZJdUxkeFV2ZGplV0h3VTg5dmhnRWNoLTRLRldPOEdNUFdKbDd4bzZFNGhmSnVwMDZaRkQyRmNUcDdfRGY0TUtkczZTOEkwTzdnOUxBaWFCeUdMcUJpSGpnUWRHbmF4TElFX0tyS1FNU3dMNjJRTHpzRGk4cWtlNEtjejJWaldCVWxFQXZ3QkZnTFlRTmVzc2N3cjRiVFNnRDhrZV93Mmotb0ZESTYyaVNmTExvT3pXemw4ZzNmYmJocU9JRmg0Q19KdUdncjFnMDUzWTVfeV9fZzZRUUMwRGtoTTA1ZTZYU3R0Z0JneUx3MFh4Q2p5cDE4THB5dmFMRlRpMGdKZjZjTU54SGZwOVBFYjF5YkEwSV95S19yNkJQQU9YSzNvcmc4a1Bod2lsRm1Edkt2UUhfQ3R3VDF3dlU2d2t4N0xzNjRqYWpPOFJGMUJGUmxCY2NKRXkzMXNVdjBNNlJWRFlRWjNDa094LVJWYnYzcUVBdjFmQVZuaktPa1pfWDBkamtxYl9YM3k0SFRJcGotWGg4LXVuRFVDVnNzQ1BlcHJFcEkzN0IwT0JIYXBMdWlIbF8xdFZrMDdtZ1l6dnU2eWNha0QxbmZfbXZsZzJGSjNiTWhVMlFfWk94VVcxcjNVczNWWU52Nmx6V3kwXS0tPjwvZz48L3N2Zz4=" alt="" /></p>
-<p><strong>Діаграма прецедентів</strong></p>
-</center>
+<h3 id="Схема-використання-для-користувача"><a class="header" href="#Схема-використання-для-користувача">Схема використання для користувача</a></h3>
+<p>Ця діаграма відображає основні функціональні можливості, доступні звичайному користувачеві системи.</p>
+<pre><code>@startuml
+actor "Користувач" as User
+
+usecase "user_register\nРеєстрація" as Registration
+usecase "user_login\nАвторизація" as Login
+usecase "media_search\nПошук даних за фільтрами" as SearchWithFilters
+usecase "pass_rec\nВідновлення паролю" as PasswordRecovery
+
+User --&gt; Registration
+User --&gt; Login
+PasswordRecovery .u.&gt; Login: &lt;&lt;extends&gt;&gt;
+User --&gt; SearchWithFilters
+@enduml
+</code></pre>
+<h3 id="Схема-використання-для-адміністратора"><a class="header" href="#Схема-використання-для-адміністратора">Схема використання для адміністратора</a></h3>
+<p>Ця діаграма демонструє функції, які доступні лише адміністратору системи для управління та конфігурації.</p>
+<pre><code>@startuml
+actor "Адміністратор" as Admin
+
+usecase "acc_manip\nКерування обліковими\n записами користувачів" as ManipAccount
+usecase "source_manip\nКерування джерелами інформації" as ManipSource
+
+usecase "delete_account\nВидалення облікового запису\n користувача" as DeleteAccount
+usecase "add_source\nДодавання нового джерела" as AddSource
+usecase "add_rights\nНадання додаткових прав\n користувачу" as GrantPermissions
+usecase "delete_source\nВидалення джерела" as DeleteSource
+
+Admin --&gt; ManipAccount
+DeleteAccount .u.&gt; ManipAccount: &lt;&lt;extends&gt;&gt;
+GrantPermissions .u.&gt; ManipAccount: &lt;&lt;extends&gt;&gt;
+
+Admin --&gt; ManipSource
+AddSource .u.&gt; ManipSource: &lt;&lt;extends&gt;&gt;
+DeleteSource .u.&gt; ManipSource: &lt;&lt;extends&gt;&gt;
+@enduml
+</code></pre>
+<h3 id="Сценарії-використання-для-користувача"><a class="header" href="#Сценарії-використання-для-користувача">Сценарії використання для користувача</a></h3>
+<h4 id="Реєстрація"><a class="header" href="#Реєстрація">Реєстрація</a></h4>
+<div class="table-wrapper"><table><thead><tr><th><strong><em>ID:</em></strong></th><th><code>user_register</code></th></tr></thead><tbody>
+<tr><td><strong><em>НАЗВА:</em></strong></td><td>Реєстрація користувача</td></tr>
+<tr><td><strong><em>УЧАСНИКИ:</em></strong></td><td>Користувач, система</td></tr>
+<tr><td><strong><em>ПЕРЕДУМОВИ:</em></strong></td><td>Користувач не має облікового запису в системі</td></tr>
+<tr><td><strong><em>РЕЗУЛЬТАТ:</em></strong></td><td>Користувач має акаунт</td></tr>
+<tr><td><strong><em>ВИКЛЮЧНІ СИТУАЦІЇ:</em></strong></td><td><code>user_exists</code> Обліковий запис з такими даними вже існує</td></tr>
+<tr><td></td><td><code>wrong_credentials</code> Неправильно введені дані</td></tr>
+<tr><td><strong><em>ОСНОВНИЙ СЦЕНАРІЙ:</em></strong></td><td>1. Користувач тисне на кнопку "Зареєструватися"</td></tr>
+<tr><td></td><td>2. Користувач отримує поля для вводу даних і вводить реєстраційні дані для свого облікового запису</td></tr>
+<tr><td></td><td>3. Користувач натискає кнопку "Зареєструватися" і відсилає дані системі (можлива <code>wrong_credentials</code>)</td></tr>
+<tr><td></td><td>4. Система реєструє користувача (можлива <code>user_exists</code>)</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+|Користувач|
+start
+:Користувач натискає на кнопку "Зареєструватися";
+|Система|
+:Система отримує запит на реєстрацію;
+:Система надсилає форму для реєстрації;
+|Користувач|
+:Користувач отримує форму \nдля реєстрації і заповнює її;
+:Користувач натискає на кнопку "Зареєструватися";
+|Система|
+:Система отримує дані з форми;
+:Система перевіряє дані користувача;
+note right #ffaaaa
+wrong_credentials
+user_exists
+end note
+:Система реєструє новий обліковий запис;
+|Користувач|
+:Користувач отримує доступ \nдо свого нового облікового запису;
+stop;
+@enduml
+</code></pre>
+<h4 id="Авторизація"><a class="header" href="#Авторизація">Авторизація</a></h4>
+<div class="table-wrapper"><table><thead><tr><th><strong><em>ID:</em></strong></th><th><code>user_login</code></th></tr></thead><tbody>
+<tr><td><strong><em>НАЗВА:</em></strong></td><td>Авторизація користувача</td></tr>
+<tr><td><strong><em>УЧАСНИКИ:</em></strong></td><td>Користувач, система</td></tr>
+<tr><td><strong><em>ПЕРЕДУМОВИ:</em></strong></td><td>Користувач вже має обліковий запис в системі</td></tr>
+<tr><td><strong><em>РЕЗУЛЬТАТ:</em></strong></td><td>Користувач авторизований у системі</td></tr>
+<tr><td><strong><em>ВИКЛЮЧНІ СИТУАЦІЇ:</em></strong></td><td><code>wrong_password</code> Введений хибний пароль</td></tr>
+<tr><td></td><td><code>no_user</code> Користувач не зареєстрований у системі</td></tr>
+<tr><td><strong><em>ОСНОВНИЙ СЦЕНАРІЙ:</em></strong></td><td>1. Користувач тисне на кнопку "Увійти"</td></tr>
+<tr><td></td><td>2. Користувач отримує поля для вводу даних і вводить пароль та логін для свого облікового запису</td></tr>
+<tr><td></td><td>3. Користувач натискає кнопку "Увійти" і відсилає дані системі</td></tr>
+<tr><td></td><td>4. Система авторизує користувача (можливі <code>wrong_password</code> та <code>no_user</code>)</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+|Користувач|
+start
+:Користувач натискає на кнопку "Увійти";
+|Система|
+:Система отримує запит на авторизацію;
+:Система надсилає форму для авторизації;
+|Користувач|
+:Користувач отримує форму \nдля авторизації і заповнює її;
+:Користувач натискає на кнопку "Увійти";
+|Система|
+:Система отримує дані з форми;
+:Система перевіряє дані користувача;
+note right #ffaaaa
+wrong_password
+no_user
+end note
+:Система надає користувачу доступ \nдо його облікового запису;
+|Користувач|
+:Користувач отримує доступ \nдо свого облікового запису;
+stop;
+@enduml
+</code></pre>
+<h4 id="Пошук-та-фільтрація-даних"><a class="header" href="#Пошук-та-фільтрація-даних">Пошук та фільтрація даних</a></h4>
+<div class="table-wrapper"><table><thead><tr><th><strong><em>ID:</em></strong></th><th><code>media_discover</code></th><th></th></tr></thead><tbody>
+<tr><td><strong><em>НАЗВА:</em></strong></td><td>Пошук та фільтрація даних</td><td></td></tr>
+<tr><td><strong><em>УЧАСНИКИ:</em></strong></td><td>Користувач, система</td><td></td></tr>
+<tr><td><strong><em>ПЕРЕДУМОВИ:</em></strong></td><td>Користувач виконав авторизацію в системі</td><td></td></tr>
+<tr><td><strong><em>РЕЗУЛЬТАТ:</em></strong></td><td>Користувач отримав потрібну інформацію, що була зібрана і проаналізована системою</td><td></td></tr>
+<tr><td><strong><em>ВИКЛЮЧНІ СИТУАЦІЇ:</em></strong></td><td><code>no_data</code> За запитом нічого не знайдено</td><td></td></tr>
+<tr><td><strong><em>ОСНОВНИЙ СЦЕНАРІЙ:</em></strong></td><td>1. Користувач обирає потрібні йому фільтри та тисне на кнопку "Пошук"</td><td></td></tr>
+<tr><td></td><td>2. Система починає пошук медіа контенту в базі за вказаними фільтрами (можлива <code>no_data</code>)</td><td></td></tr>
+<tr><td></td><td>3. Система повертає рехультат пошуку користувачеві</td><td></td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+|Користувач|
+start
+:Користувач натискає на кнопку "Пошук";
+|Система|
+:Система отримує запит на пошук;
+:Система надсилає форму з фільтрами \nдля більш детального пошуку;
+|Користувач|
+:Користувач отримує форму \nдля пошуку і заповнює її;
+:Користувач натискає на кнопку "Пошук";
+|Система|
+:Система отримує дані з форми;
+:Система здійснює пошук інформації \nза вказаними фільтрами;
+note right #ffaaaa
+no_data
+end note
+:Система формує звіт по знайденій інформації;
+:Система відправляє користувачу сформований звіт;
+|Користувач|
+:Користувач отримує звіт по інформації, \nяку хотів знайти;
+stop;
+@enduml
+</code></pre>
+<h3 id="Сценарії-викристання-для-адміністратора"><a class="header" href="#Сценарії-викристання-для-адміністратора">Сценарії викристання для адміністратора</a></h3>
+<h4 id="Надання-додаткових-прав"><a class="header" href="#Надання-додаткових-прав">Надання додаткових прав</a></h4>
+<div class="table-wrapper"><table><thead><tr><th><strong><em>ID:</em></strong></th><th><code>add_rights</code></th></tr></thead><tbody>
+<tr><td><strong><em>НАЗВА:</em></strong></td><td>Надати додаткові права користувачу</td></tr>
+<tr><td><strong><em>УЧАСНИКИ:</em></strong></td><td>Адміністратор, користувач, система</td></tr>
+<tr><td><strong><em>ПЕРЕДУМОВИ:</em></strong></td><td>Користувач потребує додаткові права в системі</td></tr>
+<tr><td><strong><em>РЕЗУЛЬТАТ:</em></strong></td><td>Користувач отримує додаткові права в системі</td></tr>
+<tr><td><strong><em>ВИКЛЮЧНІ СИТУАЦІЇ:</em></strong></td><td><code>user_not_found</code> Корисувача не знайдено в системі</td></tr>
+<tr><td></td><td><code>already_has_rights</code> Користувач вже має додаткові права в системі</td></tr>
+<tr><td></td><td><code>rights_deny</code> Адміністратор відмовляє користувачеві в наданні додаткових прав у системі</td></tr>
+<tr><td><strong><em>ОСНОВНИЙ СЦЕНАРІЙ:</em></strong></td><td>1. Користувач надає запит на отримання додаткових прав в системі</td></tr>
+<tr><td></td><td>2. Адміністратор отримує запит користувача на отримання додаткових прав в системі (можлива <code>rights_deny</code>)</td></tr>
+<tr><td></td><td>3. Адміністратор надає додаткові права користувачу в системі (можливі <code>user_not_found</code> та <code>already_has_rights</code>)</td></tr>
+<tr><td></td><td>4. Користувач отримує додаткові права в системі</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+|Користувач|
+start
+:Користувач надає запит адміністратору \nна отримання додаткових прав в системі;
+|Адміністратор|
+:Адміністратор отримує запит користувача \nна отримання додаткових прав в системі;
+note right #ffaaaa
+rights_deny
+end note
+:Адміністратор надає користувачу \nдодаткові права в системі;
+note right #ffaaaa
+user_not_found
+already_has_rights
+end note
+|Користувач|
+:Користувач отримує додаткові права в системі;
+stop;
+@enduml
+</code></pre>
+<h4 id="Додання-нового-джерела"><a class="header" href="#Додання-нового-джерела">Додання нового джерела</a></h4>
+<div class="table-wrapper"><table><thead><tr><th><strong><em>ID:</em></strong></th><th><code>add_source</code></th></tr></thead><tbody>
+<tr><td><strong><em>НАЗВА:</em></strong></td><td>Додати нове джерело інформації в систему</td></tr>
+<tr><td><strong><em>УЧАСНИКИ:</em></strong></td><td>Адміністратор, система</td></tr>
+<tr><td><strong><em>ПЕРЕДУМОВИ:</em></strong></td><td>Адміністратор хоче додати нове джерело інформації в систему</td></tr>
+<tr><td><strong><em>РЕЗУЛЬТАТ:</em></strong></td><td>В систему успішно додано нове джерело інформації</td></tr>
+<tr><td><strong><em>ВИКЛЮЧНІ СИТУАЦІЇ:</em></strong></td><td><code>invalid_source</code> Джерело не дійсне</td></tr>
+<tr><td></td><td><code>already_added_source</code> Джерело вже було додано в систему раніше</td></tr>
+<tr><td><strong><em>ОСНОВНИЙ СЦЕНАРІЙ:</em></strong></td><td>1. Адміністратор створює нове джерело інформації, натиснувши на кнопку "Додати джерело"</td></tr>
+<tr><td></td><td>2. Адміністратор вводить посилання на джерело</td></tr>
+<tr><td></td><td>3. Система проводить перевірку на валідність джерела (можливі <code>invalid_source</code> та <code>already_added_source</code>)</td></tr>
+<tr><td></td><td>4. Система додає нове джерело до списку доступних джерел інформації</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+|Адміністратор|
+start
+:Адміністратор натискає на кнопку "Додати джерело";
+|Система|
+:Система отримує запит \nна додання нового джерела;
+:Система надсилає форму \nдля додання нового джерела;
+|Адміністратор|
+:Адміністратор отримує форму \nдля додання нового джерела;
+:Адміністратор у формі вводить посилання на джерело \nта певну додаткову інформацію про це джерело;
+:Адміністратор натискає на кнопку "Додати джерело";
+|Система|
+:Система отримує дані з форми;
+:Система перевіряє джерело на валідність;
+note right #ffaaaa
+invalid_source
+already_added_source
+end note
+:Система додає нове джерело \nдо списку доступних джерел інформації;
+|Адміністратор|
+stop;
+@enduml
+</code></pre>
+<h4 id="Видалення-облікового-запису-користувача"><a class="header" href="#Видалення-облікового-запису-користувача">Видалення облікового запису користувача</a></h4>
+<div class="table-wrapper"><table><thead><tr><th><strong><em>ID:</em></strong></th><th><code>delete_account</code></th></tr></thead><tbody>
+<tr><td><strong><em>НАЗВА:</em></strong></td><td>Видалити обліковий запис користувача</td></tr>
+<tr><td><strong><em>УЧАСНИКИ:</em></strong></td><td>Адміністратор, система</td></tr>
+<tr><td><strong><em>ПЕРЕДУМОВИ:</em></strong></td><td>Певний обліковий запис користувача має бути видалений з системи</td></tr>
+<tr><td><strong><em>РЕЗУЛЬТАТ:</em></strong></td><td>Обліковий запис видалено з системи</td></tr>
+<tr><td><strong><em>ВИКЛЮЧНІ СИТУАЦІЇ:</em></strong></td><td><code>delete_deny</code> Адміністратор відхиляє запит на видалення облікового запису</td></tr>
+<tr><td></td><td><code>already_deleted</code> Обліковий запис був видалений з системи раніше</td></tr>
+<tr><td><strong><em>ОСНОВНИЙ СЦЕНАРІЙ:</em></strong></td><td>1. Адміністратор отримує запит на видалення облікового запису (можлива <code>delete_deny</code>)</td></tr>
+<tr><td></td><td>2. Адміністратор дає згоду на видалення облікового запису</td></tr>
+<tr><td></td><td>3. Система перевіряє наявність облікового запису користувача (можлива <code>already_deleted</code>)</td></tr>
+<tr><td></td><td>4. Система видаляє обліковий запис користувача</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+|Адміністратор|
+start
+:Адміністратор отримує запит \nна видалення облікового запису;
+note left #ffaaaa
+delete_deny
+end note
+:Адміністратор дає згоду \nна видалення облікового запису;
+:Адміністратор робить запит \nна видалення облікового запису;
+|Система|
+:Система отримує запит \nна видалення облікового запису;
+:Система перевіряє наявність \nоблікового запису користувача;
+note right #ffaaaa
+already_deleted
+end note
+:Система видаляє \nобліковий запис користувача;
+|Адміністратор|
+stop;
+@enduml
+</code></pre>
 
                     </main>
 

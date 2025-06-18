@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
-<html lang="uk" class="light" dir="ltr">
+<html lang="uk" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Реалізація інформаційного та програмного забезпечення - Назва проєкту</title>
+        <title>Реалізація інформаційного та програмного забезпечення - Система аналізу медіа-контенту</title>
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,26 +24,40 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -57,24 +71,22 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -82,45 +94,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Титульна сторінка</a></li><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Вступ</a></li><li class="chapter-item expanded "><a href="requirements.html"><strong aria-hidden="true">2.</strong> Розроблення загальних вимог до системи</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="state-of-the-art.html"><strong aria-hidden="true">2.1.</strong> Аналіз предметної області</a></li><li class="chapter-item expanded "><a href="stakeholders-needs.html"><strong aria-hidden="true">2.2.</strong> Запити зацікавлених осіб</a></li></ol></li><li class="chapter-item expanded "><a href="use_cases.html"><strong aria-hidden="true">3.</strong> Розроблення функціональних вимог до системи</a></li><li class="chapter-item expanded "><a href="design.html"><strong aria-hidden="true">4.</strong> Проєктування інформаційного забезпечення</a></li><li class="chapter-item expanded "><a href="software.html" class="active"><strong aria-hidden="true">5.</strong> Реалізація інформаційного та програмного забезпечення</a></li><li class="chapter-item expanded "><a href="test.html"><strong aria-hidden="true">6.</strong> Тестування працездатності системи</a></li><li class="chapter-item expanded "><a href="conclusion.html"><strong aria-hidden="true">7.</strong> Висновки</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -130,18 +122,19 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Назва проєкту</h1>
+                    <h1 class="menu-title">Система аналізу медіа-контенту</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -174,11 +167,221 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="Реалізація-інформаційного-та-програмного-забезпечення"><a class="header" href="#Реалізація-інформаційного-та-програмного-забезпечення">Реалізація інформаційного та програмного забезпечення</a></h1>
-<p>В рамках проекту розробляється:</p>
-<ul>
-<li>SQL-скрипт для створення на початкового наповнення бази даних</li>
-<li>RESTfull сервіс для управління даними</li>
-</ul>
+<h2 id="sql-скрипт"><a class="header" href="#sql-скрипт">SQL-скрипт</a></h2>
+<pre><code class="language-sql">SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema media_insight_db
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `media_insight_db` ;
+-- Changed CHARACTER SET and COLLATE for older MySQL versions
+CREATE SCHEMA IF NOT EXISTS `media_insight_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `media_insight_db` ;
+
+-- -----------------------------------------------------
+-- Table `media_insight_db`.`role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `media_insight_db`.`role` ;
+CREATE TABLE IF NOT EXISTS `media_insight_db`.`role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(64) NOT NULL UNIQUE,
+  `description` TEXT,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `media_insight_db`.`user`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `media_insight_db`.`user` ;
+CREATE TABLE IF NOT EXISTS `media_insight_db`.`user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(64) NOT NULL,
+  `email` VARCHAR(128) NOT NULL UNIQUE,
+  `password` VARCHAR(128) NOT NULL,
+  `role_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_user_role_idx` (`role_id` ASC),
+  CONSTRAINT `fk_user_role`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `media_insight_db`.`role` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `media_insight_db`.`media_content`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `media_insight_db`.`media_content` ;
+CREATE TABLE IF NOT EXISTS `media_insight_db`.`media_content` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(128) NOT NULL,
+  `description` TEXT,
+  `type` VARCHAR(32) NOT NULL,
+  `file_path` VARCHAR(255), 
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_media_content_user_idx` (`user_id` ASC),
+  CONSTRAINT `fk_media_content_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `media_insight_db`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `media_insight_db`.`project`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `media_insight_db`.`project` ;
+CREATE TABLE IF NOT EXISTS `media_insight_db`.`project` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(64) NOT NULL,
+  `description` TEXT,
+  `created_at` DATETIME NOT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_project_user_idx` (`user_id` ASC),
+  CONSTRAINT `fk_project_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `media_insight_db`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `media_insight_db`.`analysis_task`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `media_insight_db`.`analysis_task` ;
+CREATE TABLE IF NOT EXISTS `media_insight_db`.`analysis_task` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(64) NOT NULL,
+  `status` VARCHAR(64) NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `user_id` INT NOT NULL,
+  `project_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_analysis_task_user_idx` (`user_id` ASC),
+  INDEX `fk_analysis_task_project_idx` (`project_id` ASC),
+  CONSTRAINT `fk_analysis_task_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `media_insight_db`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_analysis_task_project`
+    FOREIGN KEY (`project_id`)
+    REFERENCES `media_insight_db`.`project` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `media_insight_db`.`task_content`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `media_insight_db`.`task_content` ;
+CREATE TABLE IF NOT EXISTS `media_insight_db`.`task_content` (
+  `media_content_id` INT NOT NULL,
+  `analysis_task_id` INT NOT NULL,
+  PRIMARY KEY (`media_content_id`, `analysis_task_id`),
+  INDEX `fk_task_content_analysis_task_idx` (`analysis_task_id` ASC),
+  CONSTRAINT `fk_task_content_media_content`
+    FOREIGN KEY (`media_content_id`)
+    REFERENCES `media_insight_db`.`media_content` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_task_content_analysis_task`
+    FOREIGN KEY (`analysis_task_id`)
+    REFERENCES `media_insight_db`.`analysis_task` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `media_insight_db`.`report`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `media_insight_db`.`report` ;
+CREATE TABLE IF NOT EXISTS `media_insight_db`.`report` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(64) NOT NULL,
+  `content` TEXT,
+  `created_at` DATETIME NOT NULL,
+  `analysis_task_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_report_analysis_task_idx` (`analysis_task_id` ASC),
+  CONSTRAINT `fk_report_analysis_task`
+    FOREIGN KEY (`analysis_task_id`)
+    REFERENCES `media_insight_db`.`analysis_task` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Data Inserts for `media_insight_db`
+-- -----------------------------------------------------
+START TRANSACTION;
+
+-- Insert into `role`
+INSERT INTO `media_insight_db`.`role` (`name`, `description`) VALUES
+('Administrator', 'Full system access and management.'),
+('Analyst', 'Can create tasks, view reports, manage content.'),
+('Viewer', 'Can view reports and limited content.');
+
+-- Insert into `user`
+INSERT INTO `media_insight_db`.`user` (`name`, `email`, `password`, `role_id`) VALUES
+('Ivan Adminov', 'ivan_admin@gmail.com', 'qwerty', (SELECT id FROM `role` WHERE name = 'Administrator')),
+('Olena Analyst', 'olena_analyst@gmail.com', 'qwerty', (SELECT id FROM `role` WHERE name = 'Analyst')),
+('Petro Viewer', 'petro_viewer@gmail.com', 'qwerty', (SELECT id FROM `role` WHERE name = 'Viewer')),
+('Maria Marketer', 'maria_m@gmail.com', 'qwerty', (SELECT id FROM `role` WHERE name = 'Analyst'));
+
+-- Insert into `project`
+INSERT INTO `media_insight_db`.`project` (`name`, `description`, `created_at`, `user_id`) VALUES
+('Brand Monitoring', 'Monitoring mentions of our brand across media.', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'ivan.admin@media.com')),
+('Competitor Analysis', 'Analyzing media presence of key competitors.', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com')),
+('Campaign Performance', 'Evaluating media impact of recent marketing campaign.', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'maria.m@media.com'));
+
+-- Insert into `media_content`
+INSERT INTO `media_insight_db`.`media_content` (`title`, `description`, `type`, `file_path`, `user_id`) VALUES
+('News Article on Tech A', 'Detailed article about new technology from major news source.', 'text', 'http://example.com/news/tech_a', (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com')),
+('Tweet about Product X', 'User review tweet for Product X.', 'text', 'http://twitter.com/user/product_x_tweet', (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com')),
+('Image: Company Logo', 'Official company logo in high resolution.', 'image', 'http://example.com/assets/logo.png', (SELECT id FROM `user` WHERE email = 'ivan.admin@media.com')),
+('Video: Product Demo', 'Short video demonstrating Product Y features.', 'video', 'http://youtube.com/product_y_demo', (SELECT id FROM `user` WHERE email = 'maria.m@media.com')),
+('Blog Post: Industry Trends', 'Expert analysis of current industry trends.', 'text', 'http://blog.industry.com/trends', (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com'));
+
+-- Insert into `analysis_task`
+INSERT INTO `media_insight_db`.`analysis_task` (`name`, `status`, `created_at`, `user_id`, `project_id`) VALUES
+('Monitor Brand Mentions Q2', 'in progress', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com'), (SELECT id FROM `project` WHERE name = 'Brand Monitoring')),
+('Competitor X Sentiment', 'completed', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com'), (SELECT id FROM `project` WHERE name = 'Competitor Analysis')),
+('Campaign A Media Impact', 'pending', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'maria.m@media.com'), (SELECT id FROM `project` WHERE name = 'Campaign Performance')),
+('Product Y Video Analysis', 'in progress', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'maria.m@media.com'), (SELECT id FROM `project` WHERE name = 'Campaign Performance'));
+
+-- Insert into `task_content` (linking media_content to analysis_task)
+INSERT INTO `media_insight_db`.`task_content` (`media_content_id`, `analysis_task_id`) VALUES
+((SELECT id FROM `media_content` WHERE title = 'News Article on Tech A'), (SELECT id FROM `analysis_task` WHERE name = 'Monitor Brand Mentions Q2')),
+((SELECT id FROM `media_content` WHERE title = 'Tweet about Product X'), (SELECT id FROM `analysis_task` WHERE name = 'Monitor Brand Mentions Q2')),
+((SELECT id FROM `media_content` WHERE title = 'Tweet about Product X'), (SELECT id FROM `analysis_task` WHERE name = 'Competitor X Sentiment')), -- A single media item can be part of multiple tasks
+((SELECT id FROM `media_content` WHERE title = 'Video: Product Demo'), (SELECT id FROM `analysis_task` WHERE name = 'Product Y Video Analysis')),
+((SELECT id FROM `media_content` WHERE title = 'Blog Post: Industry Trends'), (SELECT id FROM `analysis_task` WHERE name = 'Competitor X Sentiment'));
+
+
+-- Insert into `report`
+INSERT INTO `media_insight_db`.`report` (`name`, `content`, `created_at`, `analysis_task_id`) VALUES
+('Q2 Brand Mentions Summary', '{"total_mentions": 1500, "positive": 70, "negative": 10, "neutral": 20}', CURRENT_TIMESTAMP(), (SELECT id FROM `analysis_task` WHERE name = 'Monitor Brand Mentions Q2')),
+('Competitor X Sentiment Report', '{"overall_sentiment": "neutral", "key_themes": ["innovation", "market share"]}', CURRENT_TIMESTAMP(), (SELECT id FROM `analysis_task` WHERE name = 'Competitor X Sentiment'));
+
+COMMIT;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+</code></pre>
 
                     </main>
 

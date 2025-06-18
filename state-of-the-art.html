@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
-<html lang="uk" class="light" dir="ltr">
+<html lang="uk" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Аналіз предметної області - Назва проєкту</title>
+        <title>Аналіз предметної області - Система аналізу медіа-контенту</title>
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,26 +24,40 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -57,24 +71,22 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -82,45 +94,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Титульна сторінка</a></li><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Вступ</a></li><li class="chapter-item expanded "><a href="requirements.html"><strong aria-hidden="true">2.</strong> Розроблення загальних вимог до системи</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="state-of-the-art.html" class="active"><strong aria-hidden="true">2.1.</strong> Аналіз предметної області</a></li><li class="chapter-item expanded "><a href="stakeholders-needs.html"><strong aria-hidden="true">2.2.</strong> Запити зацікавлених осіб</a></li></ol></li><li class="chapter-item expanded "><a href="use_cases.html"><strong aria-hidden="true">3.</strong> Розроблення функціональних вимог до системи</a></li><li class="chapter-item expanded "><a href="design.html"><strong aria-hidden="true">4.</strong> Проєктування інформаційного забезпечення</a></li><li class="chapter-item expanded "><a href="software.html"><strong aria-hidden="true">5.</strong> Реалізація інформаційного та програмного забезпечення</a></li><li class="chapter-item expanded "><a href="test.html"><strong aria-hidden="true">6.</strong> Тестування працездатності системи</a></li><li class="chapter-item expanded "><a href="conclusion.html"><strong aria-hidden="true">7.</strong> Висновки</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -130,18 +122,19 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Назва проєкту</h1>
+                    <h1 class="menu-title">Система аналізу медіа-контенту</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -175,26 +168,90 @@
                     <main>
                         <h1 id="Аналіз-предметної-області"><a class="header" href="#Аналіз-предметної-області">Аналіз предметної області</a></h1>
 <h2 id="Вступ"><a class="header" href="#Вступ">Вступ</a></h2>
-<p><em>[Вступ повинен містити короткий огляд всього документу.]</em></p>
+<p>Цей документ представляє аналіз предметної області для розробки Системи аналізу медіа-контенту. Він охоплює ключові визначення, існуючі підходи до вирішення подібних завдань, а також порівняльну характеристику наявних програмних рішень. Мета аналізу — закласти основу для обґрунтованого рішення щодо доцільності розробки нової системи або модифікації існуючої, а також визначити необхідність і способи інтеграції з зовнішніми сервісами.</p>
 <h2 id="Основні-визначення"><a class="header" href="#Основні-визначення">Основні визначення</a></h2>
-<p><em>[Розділ містить визначення термінів та скорочень, які використовуються при аналізі предметної області.]</em></p>
-<h2 id="Підходи-та-способи-вирішення-завдання"><a class="header" href="#Підходи-та-способи-вирішення-завдання">Підходи та способи вирішення завдання</a></h2>
-<p><em>[Розділ містить опис підходів, моделей та способів вирішення завдання.]</em></p>
-<h2 id="Порівняльна-характеристика-існуючих-засобів-вирішення-завдання"><a class="header" href="#Порівняльна-характеристика-існуючих-засобів-вирішення-завдання">Порівняльна характеристика існуючих засобів вирішення завдання</a></h2>
-<p><em>[Розділ містить опис існуючих програм, інформаційних систем, сервісів, тощо, призначених для вирішення
-завдання. Дається порівняльна характеристика властивостей FURPS:</em></p>
+<p>У цьому розділі наведено визначення ключових термінів та скорочень, що використовуються в контексті аналізу предметної області Системи аналізу медіа-контенту:</p>
 <ul>
-<li><em>Functionality (функциональні вимоги)</em></li>
-<li><em>Usability (вимоги до зручності роботи)</em></li>
-<li><em>Reliability (вимоги до надійності)</em></li>
-<li><em>Performance (вимоги до продуктивності)</em></li>
-<li><em>Supportability (вимоги до підтримки)</em></li>
+<li><strong>Медіа-контент:</strong> Будь-яка інформація, представлена у цифровому форматі, що може включати текст, зображення, аудіо та відео.</li>
+<li><strong>Аналіз медіа-контенту:</strong> Процес вилучення, обробки та інтерпретації інформації з медіа-контенту для отримання цінних відомостей, тенденцій або закономірностей.</li>
+<li><strong>Система аналізу медіа-контенту:</strong> Програмне забезпечення або комплекс програмних засобів, призначених для автоматизації процесів збору, обробки, аналізу та візуалізації медіа-контенту.</li>
+<li><strong>NLP (Natural Language Processing - Обробка природної мови):</strong> Галузь штучного інтелекту, що займається взаємодією комп'ютерів з природними мовами для аналізу, розуміння та генерації людської мови.</li>
+<li><strong>Комп'ютерний зір (Computer Vision):</strong> Галузь штучного інтелекту, що дозволяє комп'ютерам "бачити" та інтерпретувати зображення та відео.</li>
+<li><strong>Машинне навчання (Machine Learning):</strong> Розділ штучного інтелекту, що дозволяє комп'ютерним системам "навчатися" на даних без явного програмування.</li>
+<li><strong>API (Application Programming Interface):</strong> Набір правил і визначень, за допомогою яких різні програмні компоненти можуть взаємодіяти один з одним.</li>
+<li><strong>FURPS:</strong> Акронім, що використовується для класифікації вимог до програмного забезпечення:
+<ul>
+<li><strong>Functionality (Функціональність):</strong> Функціональні вимоги до системи.</li>
+<li><strong>Usability (Зручність використання):</strong> Вимоги до зручності роботи користувачів з системою.</li>
+<li><strong>Reliability (Надійність):</strong> Вимоги до стабільності та безвідмовності роботи системи.</li>
+<li><strong>Performance (Продуктивність):</strong> Вимоги до швидкодії та ефективності системи.</li>
+<li><strong>Supportability (Зручність підтримки):</strong> Вимоги до легкості модифікації, тестування та супроводу системи.</li>
 </ul>
-<p><em>(у вигляді таблиці).]</em></p>
+</li>
+</ul>
+<h2 id="Підходи-та-способи-вирішення-завдання"><a class="header" href="#Підходи-та-способи-вирішення-завдання">Підходи та способи вирішення завдання</a></h2>
+<p>Вирішення завдання аналізу медіа-контенту може бути реалізовано за допомогою різних підходів та моделей, залежно від типу контенту та поставлених цілей. Основні з них включають:</p>
+<ol>
+<li><strong>Аналіз текстового контенту</strong>:</li>
+</ol>
+<ul>
+<li><strong>NLP-методи</strong>: Для вилучення ключових слів, ідентифікації сутностей (імен, організацій, місць), сентимент-аналізу (визначення тональності тексту), тематичного моделювання.</li>
+<li><strong>Виявлення плагіату</strong>: Порівняння текстів для визначення унікальності або запозичень.</li>
+<li><strong>Класифікація текстів</strong>: Автоматичне віднесення текстів до певних категорій.</li>
+<li><strong>Узагальнення тексту</strong>: Автоматичне створення коротких викладів довгих текстів.</li>
+</ul>
+<ol start="2">
+<li><strong>Аналіз зображень та відео</strong>:</li>
+</ol>
+<ul>
+<li><strong>Комп'ютерний зір</strong>: Для розпізнавання об'єктів, облич, сцен, ідентифікації логотипів.</li>
+<li><strong>Аналіз метаданих</strong>: Вилучення інформації про зображення/відео (дата створення, геолокація, тип пристрою).</li>
+<li><strong>Виявлення контенту, що порушує правила</strong>: Автоматичне виявлення небажаного або небезпечного контенту.</li>
+<li><strong>Відстеження рухів</strong>: Аналіз відеопотоків для виявлення та відстеження об'єктів у русі.</li>
+</ul>
+<ol start="3">
+<li><strong>Аналіз аудіоконтенту</strong>:</li>
+</ol>
+<ul>
+<li><strong>Розпізнавання мови (Speech-to-Text)</strong>: Перетворення аудіо на текст для подальшого текстового аналізу.</li>
+<li><strong>Ідентифікація диктора</strong>: Розпізнавання того, хто говорить.</li>
+<li><strong>Аналіз емоцій в мові</strong>: Визначення емоційного забарвлення мовлення.</li>
+<li><strong>Розпізнавання звуків</strong>: Ідентифікація різних звуків (музика, шум, специфічні сигнали).</li>
+</ul>
+<ol start="4">
+<li><strong>Комплексні підходи</strong>:</li>
+</ol>
+<ul>
+<li>Мультимодальний аналіз: Комбінування різних типів даних (текст + зображення + аудіо) для отримання глибшого розуміння контенту.</li>
+<li>Інтеграція з базами даних: Зберігання та індексація проаналізованого контенту та метаданих для швидкого пошуку та аналізу.</li>
+<li>Візуалізація даних: Представлення результатів аналізу в зручних для сприйняття форматах (графіки, діаграми, дашборди).</li>
+</ul>
+<h2 id="Порівняльна-характеристика-існуючих-засобів-вирішення-завдання"><a class="header" href="#Порівняльна-характеристика-існуючих-засобів-вирішення-завдання">Порівняльна характеристика існуючих засобів вирішення завдання</a></h2>
+<p>На ринку існує низка програмних рішень, призначених для аналізу медіа-контенту. Нижче представлена порівняльна характеристика трьох заданих аналогів: Semantrum, Neticle Media Intelligence та YouScan, за критеріями FURPS.</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Властивість / Засіб</th><th style="text-align: left">Semantrum</th><th style="text-align: left">Neticle Media Intelligence</th><th style="text-align: left">YouScan</th></tr></thead><tbody>
+<tr><td style="text-align: left"><strong>Functionality (Функціональні вимоги)</strong></td><td style="text-align: left"><strong>Моніторинг:</strong> Широке охоплення джерел (новини, ЗМІ, соціальні мережі, ТБ, радіо). <strong>Аналіз:</strong> Сентимент-аналіз, тематичний аналіз, виявлення трендів, ідентифікація ключових осіб, моніторинг репутації, кризовий моніторинг. <strong>Звіти:</strong> Настроювані звіти та дашборди. Підтримує українську мову.</td><td style="text-align: left"><strong>Моніторинг:</strong> Охоплення онлайн-ЗМІ, блоги, форуми, соціальні мережі. Основний фокус на моніторингу репутації, брендів. <strong>Аналіз:</strong> Сентимент-аналіз (з акцентом на європейські мови), ідентифікація інфлуенсерів, аналіз конкурентів. <strong>Звіти:</strong> Стандартні та кастомізовані звіти, візуалізація даних. Може мати обмежену підтримку української мови порівняно з Semantrum.</td><td style="text-align: left"><strong>Моніторинг:</strong> Глибокий моніторинг соціальних мереж, онлайн-ЗМІ, відгуків. Основна перевага – візуальний аналіз зображень. <strong>Аналіз:</strong> Розширений сентимент-аналіз (в т.ч. іронія, сарказм), тематичний аналіз, виявлення трендів, аналіз візуального контенту (розпізнавання логотипів, сцен, об'єктів). <strong>Звіти:</strong> Інтерактивні дашборди, автоматичні та ручні звіти. Добре підтримує українську мову.</td></tr>
+<tr><td style="text-align: left"><strong>Usability (Вимоги до зручності роботи)</strong></td><td style="text-align: left">Інтуїтивно зрозумілий інтерфейс, зручні фільтри для даних, настроювані дашборди. Вимагає певного часу для освоєння всіх функцій, але є достатньо дружнім до користувача.</td><td style="text-align: left">Досить простий та зрозумілий інтерфейс. Орієнтований на маркетологів та PR-спеціалістів, що робить його доступним для нетехнічних користувачів.</td><td style="text-align: left">Сучасний, візуально привабливий та дуже зручний інтерфейс. Особливий акцент на візуалізації даних робить його легким для сприйняття. Швидке освоєння базових функцій.</td></tr>
+<tr><td style="text-align: left"><strong>Reliability (Вимоги до надійності)</strong></td><td style="text-align: left">Висока надійність. Системи такого класу зазвичай мають відмовостійку архітектуру, резервне копіювання даних та високу доступність сервісу.</td><td style="text-align: left">Висока надійність. Як і інші комерційні SaaS-рішення, забезпечує стабільну роботу та захист даних користувачів.</td><td style="text-align: left">Висока надійність. Забезпечує стабільну роботу, постійний доступ до даних та безперебійний моніторинг завдяки хмарній інфраструктурі.</td></tr>
+<tr><td style="text-align: left"><strong>Performance (Вимоги до продуктивності)</strong></td><td style="text-align: left">Висока продуктивність для обробки великих обсягів даних у реальному часі або близько до реального часу. Швидке генерування звітів та завантаження даних.</td><td style="text-align: left">Оптимізований для швидкого збору та аналізу медіа-даних. Швидкість обробки залежить від обсягу даних та складності запитів.</td><td style="text-align: left">Висока продуктивність, особливо у частині обробки візуального контенту. Швидке індексування великих обсягів даних та генерація звітів.</td></tr>
+<tr><td style="text-align: left"><strong>Supportability (Вимоги до підтримки)</strong></td><td style="text-align: left">Регулярні оновлення функціоналу та баз даних джерел. Технічна підтримка, навчальні матеріали, можливість персонального менеджера.</td><td style="text-align: left">Технічна підтримка, оновлення платформи, консультації. Може мати регіональні особливості в рівні підтримки.</td><td style="text-align: left">Активна технічна підтримка, велика база знань, регулярні оновлення, вебінари та навчальні матеріали. Спільнота користувачів.</td></tr>
+</tbody></table>
+</div>
 <h2 id="Висновки"><a class="header" href="#Висновки">Висновки</a></h2>
-<p><em>[Робляться висновки щодо доцільності розробки нової або модифікації існуючої інформаційної системи, необхідності та способів інтеграції з системами(сервісами) третіх сторін, тощо.]</em></p>
-<h2 id="Посилання"><a class="header" href="#Посилання">Посилання</a></h2>
-<p><em>[Розділ містить повний список всіх документів, про які згадується.]</em></p>
+<p>Аналіз предметної області показав, що обробка та інтерпретація медіа-контенту стає дедалі важливішою функцією в сучасному інформаційному середовищі. Збільшення обсягів різнорідних даних вимагає ефективних рішень.</p>
+<p>Розглянуті комерційні інструменти, такі як <strong>Semantrum</strong>, <strong>Neticle Media Intelligence</strong> та <strong>YouScan</strong>, надають спеціалізовані можливості для моніторингу та аналізу. Однак, їхня функціональність часто фокусується на окремих типах даних або джерелах, що може обмежувати комплексний підхід до аналізу всієї панорами медіа-контенту.</p>
+<p>З огляду на це, <strong>розробка нової інформаційної системи</strong> є доцільною. Така система зможе забезпечити:</p>
+<ul>
+<li><strong>Комплексність аналізу</strong>: Можливість інтегрованої обробки текстових, візуальних та аудіоданих з різних медіа-джерел в рамках однієї платформи.</li>
+<li><strong>Глибину інтерпретації</strong>: Застосування вдосконалених методів штучного інтелекту та машинного навчання для виявлення складніших закономірностей, що може бути недоступним у стандартних комерційних рішеннях.</li>
+<li><strong>Гнучкість та контроль</strong>: Можливість адаптації функціоналу під специфічні потреби користувача та збереження контролю над обробкою даних.</li>
+</ul>
+<p>Для оптимізації процесу та розширення охоплення джерел, <strong>інтеграція з зовнішніми сервісами</strong> буде необхідною. Це дозволить:</p>
+<ul>
+<li><strong>Ефективний збір даних</strong>: Використання API соціальних мереж, новинних платформ та інших великих джерел для автоматизованого отримання контенту.</li>
+<li><strong>Доступ до спеціалізованих можливостей</strong>: Залучення хмарних обчислювальних ресурсів або спеціалізованих AI-сервісів для виконання окремих високооб'ємних або складних завдань, якщо їх реалізація in-house є недоцільною.</li>
+</ul>
+<p>Таким чином, модифікація існуючих систем може мати обмеження, оскільки вони часто створювалися для вузьких завдань. Створення ж нової, спеціалізованої системи з урахуванням сучасних викликів забезпечить ширший функціонал та адаптивність до різноманітних типів контенту.</p>
+<p>Впровадження такої системи має потенціал для покращення процесів, що базуються на медіа-інформації. Вона може сприяти <strong>більш обґрунтованому прийняттю рішень</strong>, <strong>оптимізації взаємодії з аудиторією</strong> та <strong>підвищенню ефективності роботи з інформаційними потоками</strong>.</p>
 
                     </main>
 

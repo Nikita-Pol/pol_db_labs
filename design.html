@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
-<html lang="uk" class="light" dir="ltr">
+<html lang="uk" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Проєктування інформаційного забезпечення - Назва проєкту</title>
+        <title>Проєктування інформаційного забезпечення - Система аналізу медіа-контенту</title>
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,26 +24,40 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -57,24 +71,22 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -82,45 +94,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Титульна сторінка</a></li><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Вступ</a></li><li class="chapter-item expanded "><a href="requirements.html"><strong aria-hidden="true">2.</strong> Розроблення загальних вимог до системи</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="state-of-the-art.html"><strong aria-hidden="true">2.1.</strong> Аналіз предметної області</a></li><li class="chapter-item expanded "><a href="stakeholders-needs.html"><strong aria-hidden="true">2.2.</strong> Запити зацікавлених осіб</a></li></ol></li><li class="chapter-item expanded "><a href="use_cases.html"><strong aria-hidden="true">3.</strong> Розроблення функціональних вимог до системи</a></li><li class="chapter-item expanded "><a href="design.html" class="active"><strong aria-hidden="true">4.</strong> Проєктування інформаційного забезпечення</a></li><li class="chapter-item expanded "><a href="software.html"><strong aria-hidden="true">5.</strong> Реалізація інформаційного та програмного забезпечення</a></li><li class="chapter-item expanded "><a href="test.html"><strong aria-hidden="true">6.</strong> Тестування працездатності системи</a></li><li class="chapter-item expanded "><a href="conclusion.html"><strong aria-hidden="true">7.</strong> Висновки</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -130,18 +122,19 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Назва проєкту</h1>
+                    <h1 class="menu-title">Система аналізу медіа-контенту</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -174,12 +167,163 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="Проєктування-бази-даних"><a class="header" href="#Проєктування-бази-даних">Проєктування бази даних</a></h1>
-<p>В рамках проекту розробляється:</p>
-<ul>
-<li>модель бізнес-об'єктів</li>
-<li>ER-модель</li>
-<li>реляційна схема</li>
-</ul>
+<p>Цей розділ описує структуру даних, які будуть використовуватися системою MediaInsight. Він включає модель бізнес-об'єктів, ER-модель та описує їхню реляційну схему. Ці моделі є фундаментом для проектування бази даних та забезпечення цілісності й ефективності зберігання інформації.</p>
+<h2 id="1-Модель-бізнес-обєктів"><a class="header" href="#1-Модель-бізнес-обєктів">1. Модель бізнес-об'єктів</a></h2>
+<p>Модель бізнес-об'єктів представляє основні сутності та концепції, з якими оперує система MediaInsight у контексті її функціональності. Вона відображає взаємодію між основними елементами бізнес-процесів.</p>
+<pre><code>@startuml
+!theme mars
+
+entity role {
+  + id: UUID
+  --
+  name: string
+  description: string
+}
+
+entity user {
+  + id: UUID
+  --
+  name: string
+  email: string
+  password: string
+  role_id: UUID
+}
+
+entity media_content {
+  + id: UUID
+  --
+  title: string
+  description: string
+  type: string
+  file_path: string
+  user_id: UUID
+}
+
+entity project {
+  + id: UUID
+  --
+  name: string
+  description: string
+  user_id: UUID
+}
+
+entity analysis_task {
+  + id: UUID
+  --
+  name: string
+  status: string
+  create_at: datetime
+  user_id: UUID
+  project_id: UUID
+}
+
+entity task_content {
+  + media_content_id: UUID
+  + analysis_task_id: UUID
+  --
+}
+
+entity report {
+  + id: UUID
+  --
+  name: string
+  content: string
+  create_at: datetime
+  analysis_task_id: UUID
+}
+
+user "1" -- "0..*" role
+user "1" -- "0..*" media_content
+user "1" -- "0..*" project
+user "1" -- "0..*" analysis_task
+project "1" -- "0..*" analysis_task
+analysis_task "1" -- "0..*" report
+
+media_content "0..*" -- "0..*" task_content
+analysis_task "0..*" -- "0..*" task_content
+
+@enduml
+</code></pre>
+<h2 id="2-er-модель-Модель-сутність-звязок"><a class="header" href="#2-er-модель-Модель-сутність-звязок">2. ER-модель (Модель "сутність-зв'язок")</a></h2>
+<p>ER-модель деталізує структуру даних, показуючи сутності, їхні атрибути та типи зв'язків між ними, що є основою для подальшого проектування реляційної бази даних.</p>
+<pre><code>@startuml
+!define PRIMARY_KEY_COLOR #FFD700
+!define FOREIGN_KEY_COLOR #87CEEB
+
+entity "role" as role_tbl {
+  + id: INT &lt;&lt;PRIMARY_KEY_COLOR&gt;&gt;
+  --
+  name: VARCHAR(64)
+  description: TEXT
+}
+
+entity "user" as user_tbl {
+  + id: INT &lt;&lt;PRIMARY_KEY_COLOR&gt;&gt;
+  --
+  name: VARCHAR(64)
+  email: VARCHAR(128)
+  password: VARCHAR(128)
+  role_id: INT &lt;&lt;FOREIGN_KEY_COLOR&gt;&gt;
+}
+
+entity "media_content" as media_content_tbl {
+  + id: INT &lt;&lt;PRIMARY_KEY_COLOR&gt;&gt;
+  --
+  title: VARCHAR(128)
+  description: TEXT
+  type: VARCHAR(32)
+  file_path: VARCHAR(128)
+  user_id: INT &lt;&lt;FOREIGN_KEY_COLOR&gt;&gt;
+}
+
+entity "project" as project_tbl {
+  + id: INT &lt;&lt;PRIMARY_KEY_COLOR&gt;&gt;
+  --
+  name: VARCHAR(64)
+  description: TEXT
+  user_id: INT &lt;&lt;FOREIGN_KEY_COLOR&gt;&gt;
+}
+
+entity "analysis_task" as analysis_task_tbl {
+  + id: INT &lt;&lt;PRIMARY_KEY_COLOR&gt;&gt;
+  --
+  name: VARCHAR(64)
+  status: VARCHAR(64)
+  create_at: DATETIME
+  user_id: INT &lt;&lt;FOREIGN_KEY_COLOR&gt;&gt;
+  project_id: INT &lt;&lt;FOREIGN_KEY_COLOR&gt;&gt;
+}
+
+entity "task_content" as task_content_tbl {
+  + media_content_id: INT &lt;&lt;FOREIGN_KEY_COLOR&gt;&gt;
+  + analysis_task_id: INT &lt;&lt;FOREIGN_KEY_COLOR&gt;&gt;
+  --
+}
+
+entity "report" as report_tbl {
+  + id: INT &lt;&lt;PRIMARY_KEY_COLOR&gt;&gt;
+  --
+  name: VARCHAR(64)
+  content: TEXT
+  create_at: DATETIME
+  analysis_task_id: INT &lt;&lt;FOREIGN_KEY_COLOR&gt;&gt;
+}
+
+user_tbl "1" -- "0..*" role_tbl
+user_tbl "1" -- "0..*" media_content_tbl
+user_tbl "1" -- "0..*" project_tbl
+user_tbl "1" -- "0..*" analysis_task_tbl
+project_tbl "1" -- "0..*" analysis_task_tbl
+analysis_task_tbl "1" -- "0..*" report_tbl
+
+media_content_tbl "0..*" -- "0..*" task_content_tbl
+analysis_task_tbl "0..*" -- "0..*" task_content_tbl
+
+@enduml
+</code></pre>
+<h2 id="3-Реляційна-схема"><a class="header" href="#3-Реляційна-схема">3. Реляційна схема</a></h2>
+<p>Реляційна схема є деталізованим представленням ER-моделі, адаптованим для конкретної реляційної бази даних. Вона визначає таблиці, їхні колонки, типи даних, первинні та зовнішні ключі, а також обмеження, що забезпечують цілісність даних.</p>
+<p><img src="/docs/%D0%A0%D0%B5%D0%BB%D1%8F%D1%86%D1%96%D0%B9%D0%BD%D0%B0_%D1%81%D1%85%D0%B5%D0%BC%D0%B0.png" alt="image" /></p>
 
                     </main>
 
