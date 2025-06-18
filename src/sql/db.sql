@@ -1,8 +1,3 @@
-# Реалізація інформаційного та програмного забезпечення
-
-## SQL-скрипт 
-
-```sql
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
@@ -178,24 +173,24 @@ INSERT INTO `media_insight_db`.`user` (`name`, `email`, `password`, `role_id`) V
 
 -- Insert into `project`
 INSERT INTO `media_insight_db`.`project` (`name`, `description`, `created_at`, `user_id`) VALUES
-('Brand Monitoring', 'Monitoring mentions of our brand across media.', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'ivan.admin@media.com')),
-('Competitor Analysis', 'Analyzing media presence of key competitors.', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com')),
-('Campaign Performance', 'Evaluating media impact of recent marketing campaign.', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'maria.m@media.com'));
+('Brand Monitoring', 'Monitoring mentions of our brand across media.', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'ivan_admin@gmail.com')),
+('Competitor Analysis', 'Analyzing media presence of key competitors.', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'olena_analyst@gmail.com')),
+('Campaign Performance', 'Evaluating media impact of recent marketing campaign.', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'maria_m@gmail.com'));
 
 -- Insert into `media_content`
 INSERT INTO `media_insight_db`.`media_content` (`title`, `description`, `type`, `file_path`, `user_id`) VALUES
-('News Article on Tech A', 'Detailed article about new technology from major news source.', 'text', 'http://example.com/news/tech_a', (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com')),
-('Tweet about Product X', 'User review tweet for Product X.', 'text', 'http://twitter.com/user/product_x_tweet', (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com')),
-('Image: Company Logo', 'Official company logo in high resolution.', 'image', 'http://example.com/assets/logo.png', (SELECT id FROM `user` WHERE email = 'ivan.admin@media.com')),
-('Video: Product Demo', 'Short video demonstrating Product Y features.', 'video', 'http://youtube.com/product_y_demo', (SELECT id FROM `user` WHERE email = 'maria.m@media.com')),
-('Blog Post: Industry Trends', 'Expert analysis of current industry trends.', 'text', 'http://blog.industry.com/trends', (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com'));
+('News Article on Tech A', 'Detailed article about new technology from major news source.', 'text', 'http://example.com/news/tech_a', (SELECT id FROM `user` WHERE email = 'olena_analyst@gmail.com')),
+('Tweet about Product X', 'User review tweet for Product X.', 'text', 'http://twitter.com/user/product_x_tweet', (SELECT id FROM `user` WHERE email = 'olena_analyst@gmail.com')),
+('Image: Company Logo', 'Official company logo in high resolution.', 'image', 'http://example.com/assets/logo.png', (SELECT id FROM `user` WHERE email = 'ivan_admin@gmail.com')),
+('Video: Product Demo', 'Short video demonstrating Product Y features.', 'video', 'http://youtube.com/product_y_demo', (SELECT id FROM `user` WHERE email = 'maria_m@gmail.com')),
+('Blog Post: Industry Trends', 'Expert analysis of current industry trends.', 'text', 'http://blog.industry.com/trends', (SELECT id FROM `user` WHERE email = 'olena_analyst@gmail.com'));
 
 -- Insert into `analysis_task`
 INSERT INTO `media_insight_db`.`analysis_task` (`name`, `status`, `created_at`, `user_id`, `project_id`) VALUES
-('Monitor Brand Mentions Q2', 'in progress', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com'), (SELECT id FROM `project` WHERE name = 'Brand Monitoring')),
-('Competitor X Sentiment', 'completed', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'olena.analyst@media.com'), (SELECT id FROM `project` WHERE name = 'Competitor Analysis')),
-('Campaign A Media Impact', 'pending', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'maria.m@media.com'), (SELECT id FROM `project` WHERE name = 'Campaign Performance')),
-('Product Y Video Analysis', 'in progress', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'maria.m@media.com'), (SELECT id FROM `project` WHERE name = 'Campaign Performance'));
+('Monitor Brand Mentions Q2', 'in progress', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'olena_analyst@gmail.com'), (SELECT id FROM `project` WHERE name = 'Brand Monitoring')),
+('Competitor X Sentiment', 'completed', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'olena_analyst@gmail.com'), (SELECT id FROM `project` WHERE name = 'Competitor Analysis')),
+('Campaign A Media Impact', 'pending', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'maria_m@gmail.com'), (SELECT id FROM `project` WHERE name = 'Campaign Performance')),
+('Product Y Video Analysis', 'in progress', CURRENT_TIMESTAMP(), (SELECT id FROM `user` WHERE email = 'maria_m@gmail.com'), (SELECT id FROM `project` WHERE name = 'Campaign Performance'));
 
 -- Insert into `task_content` (linking media_content to analysis_task)
 INSERT INTO `media_insight_db`.`task_content` (`media_content_id`, `analysis_task_id`) VALUES
@@ -216,4 +211,3 @@ COMMIT;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-```

@@ -1,4 +1,31 @@
 # Тестування працездатності системи
 
-*В цьому розділі необхідно вказати засоби тестування, навести вихідні коди тестів та результати тестування.*
+## Тестування REST API
 
+### GetUsers
+
+![image](GetUsers.png)
+
+### AddUser
+
+![image](AddUser.png)
+
+### DeleteUser
+
+![image](DeleteUser.png)
+
+### GetUserAfterDelete
+
+![image](GetUserAfterDelete.png)
+
+### GetBeforePutUser
+
+![image](GetBeforePut.png)
+
+### PutUser
+
+![image](PutUser.png)
+
+### GetRoles
+
+![image](GetRoles.png)
